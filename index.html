@@ -618,13 +618,29 @@
     /* TALLY WRAPPER */
     .tally-wrapper {
       position: relative;
+      background: #111;
+      border: 1px solid rgba(212,175,55,0.15);
+      border-radius: 4px;
+      padding: 32px 28px 20px;
+      min-height: 700px;
     }
     .tally-wrapper iframe {
-      border-radius: 4px;
-      min-height: 600px;
+      display: block;
+      width: 100%;
+      min-height: 700px;
+      border: none;
+      background: transparent;
     }
-    /* Tally custom CSS injected via URL params — dark background + gold accents */
-    /* The transparentBackground param makes Tally bg transparent so our dark bg shows */
+    /* Tint overlay — sits behind iframe but colors the section background */
+    .tally-overlay {
+      position: absolute;
+      inset: 0;
+      border-radius: 4px;
+      background: #111;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .tally-wrapper iframe { position: relative; z-index: 1; }
 
     /* RESPONSIVE */
     @media (max-width: 900px) {
@@ -853,19 +869,20 @@
 
     <!-- TALLY FORM EMBED -->
     <div class="tally-wrapper" id="contactForm">
+      <div class="tally-overlay"></div>
       <iframe
-        data-tally-src="https://tally.so/embed/ODAQRR?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1&customFontColor=%23f5f0e8&customInputBackground=%231a1a1a&customInputBorderColor=%23d4af3755&customButtonBackground=%23d4af37&customButtonFontColor=%23020202&customLinkColor=%23d4af37"
-        loading="lazy"
+        src="https://tally.so/embed/ODAQRR?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
         width="100%"
-        height="600"
+        height="700"
         frameborder="0"
         marginheight="0"
         marginwidth="0"
         title="Contáctanos TALUX"
         id="tallyFrame"
-        style="background:transparent;"
+        onload="this.style.opacity='1'"
+        style="opacity:0;transition:opacity 0.5s;background:transparent;min-height:700px;"
       ></iframe>
-      <p style="font-size:10px;color:var(--gray);text-align:center;letter-spacing:0.06em;margin-top:16px;">
+      <p style="font-size:10px;color:var(--gray);text-align:center;letter-spacing:0.06em;margin-top:12px;">
         Tus datos están protegidos · Sin spam · Sin compromisos
       </p>
     </div>
@@ -942,10 +959,7 @@ function scrollTo(sel){
   document.querySelector(sel).scrollIntoView({behavior:'smooth'});
 }
 
-/* ── TALLY EMBED SCRIPT ── */
-(function(d,w){var s=d.createElement('script');s.async=1;s.src='https://tally.so/widgets/embed.js';d.head.appendChild(s);})(document,window);
-
-/* Listen for Tally form submission → fire GA4 event */
+/* ── TALLY: escuchar envío del formulario ── */
 window.addEventListener('message', function(e){
   if(e.data && e.data.event === 'Tally.FormSubmitted'){
     gtag('event','generate_lead',{
