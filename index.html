@@ -18,646 +18,349 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 
   <style>
+    /* ── TOKENS ── */
     :root {
-      --gold: #b8941f;
-      --gold-light: #d4af37;
-      --gold-dim: #9a7a18;
-      --black: #1a1410;
-      --dark: #f7f5f0;
-      --dark2: #f0ece3;
-      --dark3: #e8e2d6;
-      --gray: #7a7060;
-      --gray-light: #5a5040;
-      --white: #1a1410;
+      --gold:        #b8941f;
+      --gold-hover:  #d4af37;
+      --gold-dim:    #9a7a18;
+      --gold-bg:     rgba(184,148,31,0.08);
+      --gold-border: rgba(184,148,31,0.25);
+
+      --page-bg:  #faf8f4;
+      --card-bg:  #f2ede4;
+      --card-bg2: #ece6da;
+      --border:   rgba(180,165,130,0.3);
+
+      --ink:      #1c1710;
+      --ink-mid:  #5a5040;
+      --ink-soft: #8a8070;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
-      background: #faf8f4;
-      color: #1a1410;
+      background: var(--page-bg);
+      color: var(--ink);
       font-family: 'Montserrat', sans-serif;
       font-weight: 300;
       overflow-x: hidden;
       cursor: none;
     }
 
-    /* CUSTOM CURSOR */
+    /* ── CURSOR ── */
     .cursor {
-      position: fixed;
-      width: 10px; height: 10px;
-      background: var(--gold);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: transform 0.1s, width 0.3s, height 0.3s, opacity 0.3s;
+      position: fixed; width: 10px; height: 10px;
+      background: var(--gold); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width .3s, height .3s;
     }
     .cursor-ring {
-      position: fixed;
-      width: 36px; height: 36px;
-      border: 1px solid rgba(212,175,55,0.5);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: transform 0.18s ease-out, width 0.3s, height 0.3s;
+      position: fixed; width: 36px; height: 36px;
+      border: 1px solid rgba(184,148,31,.45); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: transform .18s ease-out, width .3s, height .3s;
     }
 
-    /* GRAIN OVERLAY */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 100;
-      opacity: 0.4;
-    }
-
-    /* NAV */
+    /* ── NAV ── */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 50;
-      padding: 22px 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: linear-gradient(to bottom, rgba(250,248,244,0.97), transparent);
-      transition: background 0.4s;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      padding: 20px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(250,248,244,.97), transparent);
+      transition: background .4s;
     }
-    nav.scrolled { background: rgba(250,248,244,0.98); border-bottom: 1px solid rgba(184,148,31,0.15); }
+    nav.scrolled {
+      background: rgba(250,248,244,.98);
+      border-bottom: 1px solid var(--gold-border);
+      box-shadow: 0 2px 20px rgba(0,0,0,.06);
+    }
     .nav-logo {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 28px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      color: #1a1410;
-      text-decoration: none;
+      font-size: 28px; font-weight: 600; letter-spacing: .12em;
+      color: var(--ink); text-decoration: none;
     }
     .nav-logo span { color: var(--gold); }
-    .nav-links {
-      display: flex;
-      gap: 36px;
-      list-style: none;
-    }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
     .nav-links a {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #7a7060;
-      text-decoration: none;
-      transition: color 0.3s;
+      font-size: 11px; font-weight: 500; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--ink-soft); text-decoration: none;
+      transition: color .3s;
     }
     .nav-links a:hover { color: var(--gold); }
     .nav-cta {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: #fff;
-      background: var(--gold);
-      padding: 10px 22px;
-      border-radius: 2px;
-      text-decoration: none;
-      transition: background 0.3s, transform 0.2s;
+      font-size: 11px; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: #fff;
+      background: var(--gold); padding: 10px 22px; border-radius: 2px;
+      text-decoration: none; transition: background .3s, transform .2s;
     }
-    .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .nav-cta:hover { background: var(--gold-hover); transform: translateY(-1px); }
 
-    /* HERO */
+    /* ── HERO ── */
     .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 120px 24px 80px;
-      position: relative;
-      overflow: hidden;
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 120px 24px 80px;
+      position: relative; overflow: hidden;
+      background: var(--page-bg);
     }
-
-    /* Gold orb bg */
     .hero::after {
-      content: '';
-      position: absolute;
-      width: 700px; height: 700px;
-      background: radial-gradient(circle, rgba(184,148,31,0.06) 0%, transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
+      content: ''; position: absolute;
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(184,148,31,.07) 0%, transparent 65%);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
       pointer-events: none;
     }
-
-    /* Diagonal line accents */
-    .hero-lines {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    .hero-lines::before {
-      content: '';
-      position: absolute;
-      width: 1px; height: 200px;
+    .hero-line {
+      position: absolute; width: 1px; pointer-events: none;
       background: linear-gradient(to bottom, transparent, var(--gold-dim), transparent);
-      left: 15%; top: 20%;
-      opacity: 0.4;
+      opacity: .35;
     }
-    .hero-lines::after {
-      content: '';
-      position: absolute;
-      width: 1px; height: 150px;
-      background: linear-gradient(to bottom, transparent, var(--gold-dim), transparent);
-      right: 18%; top: 30%;
-      opacity: 0.3;
-    }
-
     .hero-tag {
-      font-size: 10px;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 28px;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.2s forwards;
+      font-size: 10px; letter-spacing: .35em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 28px;
+      opacity: 0; animation: fadeUp .8s .2s forwards;
     }
     .hero-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(56px, 10vw, 110px);
-      font-weight: 300;
-      line-height: 0.92;
-      letter-spacing: -0.01em;
-      margin-bottom: 6px;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.35s forwards;
+      font-size: clamp(60px, 10vw, 116px); font-weight: 300;
+      line-height: .92; letter-spacing: -.01em; color: var(--ink);
+      margin-bottom: 6px; opacity: 0; animation: fadeUp .9s .35s forwards;
     }
-    .hero-title .gold { color: var(--gold); font-style: italic; }
+    .hero-title .g { color: var(--gold); font-style: italic; }
     .hero-sub {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(18px, 3vw, 26px);
-      font-weight: 300;
-      font-style: italic;
-      color: #7a7060;
-      margin-bottom: 52px;
-      letter-spacing: 0.04em;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.5s forwards;
+      font-size: clamp(18px, 3vw, 26px); font-weight: 300; font-style: italic;
+      color: var(--ink-soft); margin-bottom: 52px; letter-spacing: .04em;
+      opacity: 0; animation: fadeUp .9s .5s forwards;
     }
     .hero-btns {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      justify-content: center;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.65s forwards;
+      display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+      opacity: 0; animation: fadeUp .9s .65s forwards;
     }
     .btn-primary {
-      background: var(--gold);
-      color: #fff;
-      padding: 16px 40px;
-      border: none;
-      border-radius: 2px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      cursor: none;
-      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
-      box-shadow: 0 0 0 rgba(184,148,31,0);
+      background: var(--gold); color: #fff;
+      padding: 16px 40px; border: none; border-radius: 2px;
+      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
+      letter-spacing: .2em; text-transform: uppercase; cursor: none;
+      transition: background .3s, transform .2s, box-shadow .3s;
     }
     .btn-primary:hover {
-      background: var(--gold-light);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(184,148,31,0.25);
+      background: var(--gold-hover); transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(184,148,31,.22);
     }
     .btn-outline {
-      background: transparent;
-      color: #1a1410;
-      padding: 15px 40px;
-      border: 1px solid rgba(26,20,16,0.25);
-      border-radius: 2px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      cursor: none;
-      transition: border-color 0.3s, color 0.3s, transform 0.2s;
+      background: transparent; color: var(--ink);
+      padding: 15px 40px; border: 1px solid rgba(28,23,16,.22); border-radius: 2px;
+      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500;
+      letter-spacing: .2em; text-transform: uppercase; cursor: none;
+      transition: border-color .3s, color .3s, transform .2s;
     }
-    .btn-outline:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-      transform: translateY(-2px);
-    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
 
-    /* SCROLL INDICATOR */
+    /* scroll hint */
     .scroll-hint {
-      position: absolute;
-      bottom: 36px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      opacity: 0;
-      animation: fadeUp 1s 1.2s forwards;
+      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      opacity: 0; animation: fadeUp 1s 1.2s forwards;
     }
-    .scroll-hint span {
-      font-size: 9px;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: #9a9080;
-    }
+    .scroll-hint span { font-size: 9px; letter-spacing: .28em; text-transform: uppercase; color: var(--ink-soft); }
     .scroll-line {
-      width: 1px;
-      height: 50px;
+      width: 1px; height: 50px;
       background: linear-gradient(to bottom, var(--gold-dim), transparent);
       animation: scrollPulse 2s 1.5s infinite;
     }
 
-    /* STATS BAR */
+    /* ── STATS BAR ── */
     .stats-bar {
-      border-top: 1px solid rgba(184,148,31,0.2);
-      border-bottom: 1px solid rgba(184,148,31,0.2);
-      background: #f0ece3;
+      border-top: 1px solid var(--gold-border);
+      border-bottom: 1px solid var(--gold-border);
+      background: var(--card-bg);
       padding: 44px 48px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0;
+      display: grid; grid-template-columns: repeat(3, 1fr);
     }
     .stat-item {
-      text-align: center;
-      padding: 0 24px;
-      position: relative;
+      text-align: center; padding: 0 24px; position: relative;
     }
     .stat-item:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      right: 0; top: 20%; bottom: 20%;
-      width: 1px;
-      background: rgba(184,148,31,0.3);
+      content: ''; position: absolute; right: 0; top: 20%; bottom: 20%;
+      width: 1px; background: var(--gold-border);
     }
     .stat-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 52px;
-      font-weight: 300;
-      color: var(--gold);
-      line-height: 1;
-      margin-bottom: 8px;
+      font-family: 'Cormorant Garamond', serif; font-size: 52px;
+      font-weight: 300; color: var(--gold); line-height: 1; margin-bottom: 8px;
     }
-    .stat-label {
-      font-size: 10px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: #7a7060;
-    }
+    .stat-label { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--ink-soft); }
 
-    /* SECTION */
-    .section {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 100px 48px;
-    }
-    .section-tag {
-      font-size: 10px;
-      letter-spacing: 0.32em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 18px;
-    }
+    /* ── SECTIONS ── */
+    .section { max-width: 1100px; margin: 0 auto; padding: 100px 48px; }
+    .section-tag { font-size: 10px; letter-spacing: .32em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
     .section-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(36px, 5vw, 58px);
-      font-weight: 300;
-      line-height: 1.05;
-      margin-bottom: 20px;
+      font-size: clamp(36px, 5vw, 58px); font-weight: 300; line-height: 1.05;
+      color: var(--ink); margin-bottom: 20px;
     }
     .section-title em { color: var(--gold); font-style: italic; }
-    .section-body {
-      font-size: 14px;
-      line-height: 1.85;
-      color: #5a5040;
-      max-width: 540px;
-    }
+    .section-body { font-size: 14px; line-height: 1.85; color: var(--ink-mid); max-width: 540px; }
 
-    /* BENEFIT CARD */
+    /* ── BENEFIT CARDS ── */
     .benefits-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      margin-top: 60px;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px; margin-top: 60px;
     }
     .benefit-card {
-      background: #f0ece3;
-      padding: 40px 32px;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.4s;
+      background: var(--card-bg); padding: 40px 32px;
+      position: relative; overflow: hidden; transition: background .4s;
     }
     .benefit-card::before {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 2px;
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      transform: scaleX(0);
-      transition: transform 0.4s;
+      transform: scaleX(0); transition: transform .4s;
     }
-    .benefit-card:hover { background: #e8e2d5; }
+    .benefit-card:hover { background: var(--card-bg2); }
     .benefit-card:hover::before { transform: scaleX(1); }
     .benefit-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 64px;
-      font-weight: 300;
-      color: rgba(184,148,31,0.18);
-      line-height: 1;
-      margin-bottom: 16px;
-      transition: color 0.4s;
+      font-family: 'Cormorant Garamond', serif; font-size: 64px; font-weight: 300;
+      color: rgba(184,148,31,.16); line-height: 1; margin-bottom: 16px; transition: color .4s;
     }
-    .benefit-card:hover .benefit-num { color: rgba(184,148,31,0.35); }
+    .benefit-card:hover .benefit-num { color: rgba(184,148,31,.32); }
     .benefit-title {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #1a1410;
-      margin-bottom: 12px;
+      font-size: 13px; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--ink); margin-bottom: 12px;
     }
-    .benefit-text {
-      font-size: 13px;
-      line-height: 1.75;
-      color: #6a6050;
-    }
+    .benefit-text { font-size: 13px; line-height: 1.75; color: var(--ink-mid); }
 
-    /* FISCAL EXAMPLE */
+    /* ── FISCAL CALC ── */
+    .fiscal-wrap { background: var(--card-bg); }
     .fiscal-section {
-      background: #f0ece3;
-      border: 1px solid rgba(184,148,31,0.25);
-      border-radius: 4px;
-      overflow: hidden;
+      background: #fff;
+      border: 1px solid var(--gold-border);
+      border-radius: 4px; overflow: hidden;
+      box-shadow: 0 4px 40px rgba(0,0,0,.06);
     }
-    .fiscal-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-    }
+    .fiscal-inner { display: grid; grid-template-columns: 1fr 1fr; }
     .fiscal-left {
-      padding: 64px 56px;
-      border-right: 1px solid rgba(184,148,31,0.2);
+      padding: 60px 52px;
+      border-right: 1px solid var(--gold-border);
+      background: #fff;
     }
-    .fiscal-right {
-      padding: 64px 56px;
-      background: rgba(184,148,31,0.04);
-    }
+    .fiscal-right { padding: 60px 52px; background: var(--card-bg); }
     .amount-display {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 58px;
-      font-weight: 300;
-      color: var(--gold);
-      line-height: 1;
-      margin: 20px 0 8px;
+      font-family: 'Cormorant Garamond', serif; font-size: 58px; font-weight: 300;
+      color: var(--gold); line-height: 1; margin: 20px 0 8px;
     }
-    .amount-label {
-      font-size: 10px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: #7a7060;
-    }
-    .divider-gold {
-      width: 40px;
-      height: 1px;
-      background: var(--gold-dim);
-      margin: 24px 0;
-    }
-    .input-row {
-      margin-bottom: 22px;
-    }
+    .amount-label { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--ink-soft); }
+    .divider-gold { width: 40px; height: 1px; background: var(--gold-dim); margin: 24px 0; }
+    .input-row { margin-bottom: 20px; }
     .input-label {
-      font-size: 10px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #7a7060;
-      display: block;
-      margin-bottom: 8px;
+      font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--ink-soft); display: block; margin-bottom: 8px;
     }
     .input-field {
-      width: 100%;
-      background: #fff;
-      border: 1px solid rgba(184,148,31,0.3);
-      border-radius: 2px;
-      padding: 12px 16px;
-      color: #1a1410;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 13px;
-      font-weight: 300;
-      outline: none;
-      transition: border-color 0.3s;
+      width: 100%; background: var(--page-bg);
+      border: 1px solid var(--gold-border); border-radius: 2px;
+      padding: 12px 16px; color: var(--ink);
+      font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 300;
+      outline: none; transition: border-color .3s;
     }
-    .input-field:focus { border-color: var(--gold); }
-    .input-field::placeholder { color: #aaa090; }
-    select.input-field { cursor: none; }
-
-    /* RANGE SLIDER */
-    .slider-wrap { position: relative; }
+    .input-field:focus { border-color: var(--gold); background: #fff; }
+    .input-field::placeholder { color: var(--ink-soft); }
     input[type=range] {
-      -webkit-appearance: none;
-      width: 100%;
-      height: 2px;
-      background: rgba(184,148,31,0.25);
-      outline: none;
-      border-radius: 2px;
-      cursor: none;
+      -webkit-appearance: none; width: 100%; height: 2px;
+      background: var(--gold-border); outline: none; border-radius: 2px; cursor: none;
     }
     input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 16px; height: 16px;
-      border-radius: 50%;
-      background: var(--gold);
-      cursor: none;
-      transition: box-shadow 0.3s;
+      -webkit-appearance: none; width: 18px; height: 18px;
+      border-radius: 50%; background: var(--gold); cursor: none;
+      transition: box-shadow .3s;
     }
-    input[type=range]::-webkit-slider-thumb:hover {
-      box-shadow: 0 0 0 6px rgba(184,148,31,0.15);
-    }
+    input[type=range]::-webkit-slider-thumb:hover { box-shadow: 0 0 0 6px rgba(184,148,31,.15); }
     .slider-val {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 32px;
-      color: #1a1410;
-      margin-bottom: 8px;
+      font-family: 'Cormorant Garamond', serif; font-size: 34px;
+      color: var(--ink); margin-bottom: 10px;
     }
-
-    /* SAVINGS BOX */
     .savings-box {
-      background: rgba(184,148,31,0.07);
-      border: 1px solid rgba(184,148,31,0.3);
-      border-radius: 3px;
-      padding: 24px;
-      margin-top: 24px;
+      background: var(--gold-bg); border: 1px solid var(--gold-border);
+      border-radius: 3px; padding: 22px; margin-top: 22px;
     }
     .savings-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(184,148,31,0.12);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0; border-bottom: 1px solid var(--gold-border);
     }
     .savings-row:last-child { border-bottom: none; padding-bottom: 0; }
-    .savings-key { font-size: 11px; color: #7a7060; letter-spacing: 0.08em; }
+    .savings-key { font-size: 11px; color: var(--ink-soft); letter-spacing: .06em; }
     .savings-val { font-size: 13px; font-weight: 600; color: var(--gold); }
 
-    /* CONTACT */
-    .contact-wrap {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: start;
-    }
-    .contact-form { display: flex; flex-direction: column; gap: 16px; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .contact-info { padding-top: 8px; }
-    .contact-info h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 36px;
-      font-weight: 300;
-      margin-bottom: 16px;
-      line-height: 1.1;
-    }
-    .contact-info p {
-      font-size: 13px;
-      line-height: 1.85;
-      color: #5a5040;
-      margin-bottom: 36px;
-    }
-    .contact-detail {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      margin-bottom: 18px;
-    }
+    /* ── CONTACT ── */
+    .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+    .contact-label { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin-bottom: 2px; }
+    .contact-detail { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 18px; }
     .contact-icon {
-      width: 32px; height: 32px;
-      border: 1px solid rgba(184,148,31,0.4);
-      border-radius: 2px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 14px;
-      flex-shrink: 0;
-      margin-top: 2px;
+      width: 34px; height: 34px; border: 1px solid var(--gold-border); border-radius: 2px;
+      display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0;
     }
-    .contact-detail-text { font-size: 13px; color: #5a5040; line-height: 1.6; }
-    .contact-detail-label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 2px; }
+    .contact-detail-text { font-size: 13px; color: var(--ink-mid); line-height: 1.6; }
 
-    /* TALLY WRAPPER */
+    /* Tally wrapper */
     .tally-wrapper {
-      position: relative;
-      background: #f0ece3;
-      border: 1px solid rgba(184,148,31,0.2);
-      border-radius: 4px;
-      padding: 32px 28px 20px;
-      min-height: 700px;
+      background: #fff;
+      border: 1px solid var(--gold-border);
+      border-radius: 4px; padding: 32px 28px 20px;
+      box-shadow: 0 4px 32px rgba(0,0,0,.05);
     }
-    .tally-wrapper iframe {
-      display: block;
-      width: 100%;
-      min-height: 700px;
-      border: none;
-      background: transparent;
-    }
-    .tally-overlay {
-      position: absolute;
-      inset: 0;
-      border-radius: 4px;
-      background: #f0ece3;
-      z-index: 0;
-      pointer-events: none;
-    }
-    .tally-wrapper iframe { position: relative; z-index: 1; }
 
-    /* FOOTER */
+    /* ── FOOTER ── */
     footer {
-      border-top: 1px solid rgba(184,148,31,0.2);
-      background: #f0ece3;
-      padding: 40px 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
+      border-top: 1px solid var(--gold-border);
+      background: var(--card-bg);
+      padding: 36px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
     }
     .footer-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 22px;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      color: #1a1410;
+      font-family: 'Cormorant Garamond', serif; font-size: 22px;
+      font-weight: 600; letter-spacing: .1em; color: var(--ink);
     }
     .footer-logo span { color: var(--gold); }
-    .footer-copy {
-      font-size: 11px;
-      color: #7a7060;
-      letter-spacing: 0.08em;
-    }
+    .footer-copy { font-size: 11px; color: var(--ink-soft); letter-spacing: .06em; }
 
-    /* ANIMATIONS */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 1; }
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* TOAST */
+    /* ── TOAST ── */
     .toast {
-      position: fixed;
-      bottom: 32px;
-      right: 32px;
-      background: #fff;
-      border: 1px solid rgba(184,148,31,0.4);
-      border-radius: 4px;
-      padding: 16px 22px;
-      font-size: 12px;
-      color: #1a1410;
-      z-index: 200;
-      transform: translateY(80px);
-      opacity: 0;
-      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s;
+      position: fixed; bottom: 32px; right: 32px;
+      background: #fff; border: 1px solid var(--gold-border);
+      border-radius: 4px; padding: 16px 22px; font-size: 12px;
+      color: var(--ink); z-index: 200;
+      transform: translateY(80px); opacity: 0;
+      transition: transform .4s cubic-bezier(.34,1.56,.64,1), opacity .4s;
       pointer-events: none;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      box-shadow: 0 8px 32px rgba(0,0,0,.1);
     }
     .toast.show { transform: translateY(0); opacity: 1; }
-    .toast-title { font-weight: 600; color: var(--gold); margin-bottom: 2px; font-size: 12px; }
+    .toast-title { font-weight: 700; color: var(--gold); font-size: 12px; margin-bottom: 2px; }
 
-    /* RESPONSIVE */
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s, transform .8s; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(24px);} to { opacity:1; transform:translateY(0);} }
+    @keyframes scrollPulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+    /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       nav { padding: 18px 24px; }
       .nav-links { display: none; }
       .stats-bar { grid-template-columns: 1fr; gap: 32px; padding: 40px 24px; }
       .stat-item::after { display: none; }
-      .benefits-grid { grid-template-columns: 1fr; gap: 2px; }
+      .benefits-grid { grid-template-columns: 1fr; }
       .fiscal-inner { grid-template-columns: 1fr; }
-      .fiscal-left { border-right: none; border-bottom: 1px solid rgba(212,175,55,0.12); padding: 40px 28px; }
+      .fiscal-left { border-right: none; border-bottom: 1px solid var(--gold-border); padding: 40px 28px; }
       .fiscal-right { padding: 40px 28px; }
       .contact-wrap { grid-template-columns: 1fr; gap: 48px; }
-      .form-row { grid-template-columns: 1fr; }
       .section { padding: 64px 24px; }
-      footer { flex-direction: column; text-align: center; padding: 32px 24px; }
+      footer { flex-direction: column; text-align: center; padding: 28px 24px; }
       body { cursor: auto; }
       .cursor, .cursor-ring { display: none; }
     }
@@ -665,13 +368,12 @@
 </head>
 <body>
 
-<!-- CUSTOM CURSOR -->
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
 <!-- TOAST -->
 <div class="toast" id="toast">
-  <div class="toast-title" id="toastTitle">✓ Evento registrado</div>
+  <div class="toast-title" id="toastTitle"></div>
   <div id="toastMsg"></div>
 </div>
 
@@ -680,7 +382,7 @@
   <a href="#" class="nav-logo">TAL<span>UX</span></a>
   <ul class="nav-links">
     <li><a href="#beneficios">Beneficios</a></li>
-    <li><a href="#fiscal">Fiscal</a></li>
+    <li><a href="#fiscal">Calculadora</a></li>
     <li><a href="#contacto">Contacto</a></li>
   </ul>
   <a href="#contacto" class="nav-cta" onclick="trackCotizar()">Cotizar ahora</a>
@@ -688,13 +390,14 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-lines"></div>
+  <div class="hero-line" style="left:14%;top:15%;height:200px;"></div>
+  <div class="hero-line" style="right:17%;top:28%;height:140px;"></div>
   <p class="hero-tag">Arrendamiento vehicular empresarial</p>
-  <h1 class="hero-title">TAL<span class="gold">UX</span></h1>
+  <h1 class="hero-title">TAL<span class="g">UX</span></h1>
   <p class="hero-sub">Inteligencia financiera sobre ruedas</p>
   <div class="hero-btns">
     <button class="btn-primary" onclick="trackCotizar()">Cotizar ahora</button>
-    <button class="btn-outline" onclick="scrollTo('#fiscal')">Ver beneficio fiscal</button>
+    <button class="btn-outline" onclick="document.querySelector('#fiscal').scrollIntoView({behavior:'smooth'})">Ver beneficio fiscal</button>
   </div>
   <div class="scroll-hint">
     <span>Descubrir</span>
@@ -722,35 +425,35 @@
 <div id="beneficios" class="section reveal">
   <p class="section-tag">Por qué TALUX</p>
   <h2 class="section-title">Ventajas que<br>transforman tu <em>empresa</em></h2>
-  <p class="section-body">El arrendamiento vehicular empresarial no es solo una opción de movilidad — es una herramienta financiera que optimiza tus recursos, mejora tu flujo de caja y maximiza tus deducciones.</p>
+  <p class="section-body">El arrendamiento vehicular empresarial no es solo movilidad — es una herramienta financiera que optimiza recursos, mejora flujo de caja y maximiza deducciones.</p>
 
   <div class="benefits-grid">
     <div class="benefit-card reveal">
       <div class="benefit-num">01</div>
       <div class="benefit-title">Deducción Fiscal</div>
-      <div class="benefit-text">Deduce hasta el 25% del valor del vehículo de tus impuestos. Una flota de $5M MXN puede representar $1.25M en ahorro fiscal real.</div>
+      <div class="benefit-text">Deduce hasta el 25% del valor del vehículo de tus impuestos. Una flota de $5M MXN puede representar $1.25M en ahorro real.</div>
     </div>
-    <div class="benefit-card reveal" style="transition-delay:0.1s">
+    <div class="benefit-card reveal" style="transition-delay:.1s">
       <div class="benefit-num">02</div>
       <div class="benefit-title">Flujo de Caja</div>
-      <div class="benefit-text">Paga rentas fijas mensuales en lugar de comprometer capital. Mantén tu liquidez para invertir en lo que hace crecer tu negocio.</div>
+      <div class="benefit-text">Paga rentas fijas mensuales en lugar de comprometer capital. Mantén liquidez para invertir en lo que hace crecer tu negocio.</div>
     </div>
-    <div class="benefit-card reveal" style="transition-delay:0.2s">
+    <div class="benefit-card reveal" style="transition-delay:.2s">
       <div class="benefit-num">03</div>
       <div class="benefit-title">Sin Depreciación</div>
-      <div class="benefit-text">El riesgo de depreciación del vehículo no es tuyo. Al término del contrato regresas la unidad sin preocupaciones de valor residual.</div>
+      <div class="benefit-text">El riesgo de depreciación no es tuyo. Al término del contrato regresas la unidad sin preocupaciones de valor residual.</div>
     </div>
-    <div class="benefit-card reveal" style="transition-delay:0.05s">
+    <div class="benefit-card reveal" style="transition-delay:.05s">
       <div class="benefit-num">04</div>
       <div class="benefit-title">Flota Actualizada</div>
       <div class="benefit-text">Renueva tu flota al término de cada contrato. Siempre con los modelos más recientes, sin el costo de vender unidades usadas.</div>
     </div>
-    <div class="benefit-card reveal" style="transition-delay:0.15s">
+    <div class="benefit-card reveal" style="transition-delay:.15s">
       <div class="benefit-num">05</div>
       <div class="benefit-title">Balance Limpio</div>
-      <div class="benefit-text">El arrendamiento operativo no aparece como pasivo en tu balance general. Mejora tus razones financieras ante bancos e inversionistas.</div>
+      <div class="benefit-text">El arrendamiento operativo no aparece como pasivo en tu balance. Mejora tus razones financieras ante bancos e inversionistas.</div>
     </div>
-    <div class="benefit-card reveal" style="transition-delay:0.25s">
+    <div class="benefit-card reveal" style="transition-delay:.25s">
       <div class="benefit-num">06</div>
       <div class="benefit-title">Asesoría Total</div>
       <div class="benefit-text">Desde la selección del vehículo hasta la estrategia fiscal, nuestros asesores acompañan cada decisión de tu empresa.</div>
@@ -758,14 +461,12 @@
   </div>
 </div>
 
-<!-- FISCAL CALCULATOR -->
-<div id="fiscal" style="background: #f0ece3;">
+<!-- CALCULADORA FISCAL -->
+<div id="fiscal" class="fiscal-wrap">
   <div class="section reveal">
     <p class="section-tag">Calculadora de ahorro</p>
     <h2 class="section-title">Tu <em>beneficio fiscal</em><br>en números reales</h2>
-
-    <div style="height:48px"></div>
-
+    <div style="height:40px"></div>
     <div class="fiscal-section">
       <div class="fiscal-inner">
         <div class="fiscal-left">
@@ -773,12 +474,10 @@
           <div class="slider-val" id="sliderDisplay">$1,000,000 MXN</div>
           <input type="range" id="vehicleSlider" min="300000" max="5000000" step="50000" value="1000000" oninput="updateCalc()"/>
           <div style="display:flex;justify-content:space-between;margin-top:6px;">
-            <span style="font-size:9px;color:var(--gray);letter-spacing:0.1em;">$300K</span>
-            <span style="font-size:9px;color:var(--gray);letter-spacing:0.1em;">$5M</span>
+            <span style="font-size:9px;color:var(--ink-soft);letter-spacing:.1em;">$300K</span>
+            <span style="font-size:9px;color:var(--ink-soft);letter-spacing:.1em;">$5M</span>
           </div>
-
           <div class="divider-gold"></div>
-
           <div class="input-row">
             <label class="input-label">Plazo del contrato</label>
             <select class="input-field" id="termSelect" onchange="updateCalc()">
@@ -797,14 +496,11 @@
             </select>
           </div>
         </div>
-
         <div class="fiscal-right">
           <p class="amount-label">Ahorro fiscal estimado</p>
           <div class="amount-display" id="savingsDisplay">$250,000</div>
-          <span style="font-size:11px;color:var(--gray);letter-spacing:0.1em;">MXN</span>
-
+          <span style="font-size:11px;color:var(--ink-soft);letter-spacing:.1em;">MXN</span>
           <div class="divider-gold"></div>
-
           <div class="savings-box">
             <div class="savings-row">
               <span class="savings-key">Valor del vehículo</span>
@@ -827,11 +523,8 @@
               <span class="savings-val" id="r-plazo">36 meses</span>
             </div>
           </div>
-
           <div style="margin-top:24px;">
-            <button class="btn-primary" style="width:100%" onclick="trackCotizar()">
-              Quiero este beneficio →
-            </button>
+            <button class="btn-primary" style="width:100%" onclick="trackCotizar()">Quiero este beneficio →</button>
           </div>
         </div>
       </div>
@@ -842,42 +535,49 @@
 <!-- CONTACTO -->
 <div id="contacto" class="section reveal">
   <div class="contact-wrap">
-    <div class="contact-info">
+    <div>
       <p class="section-tag">Contacto</p>
-      <h2 class="contact-info h3" style="font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;margin-bottom:16px;line-height:1.1;">Un asesor<br><em style="color:var(--gold)">te contactará</em><br>hoy mismo</h2>
-      <p style="font-size:13px;line-height:1.85;color:var(--gray-light);margin-bottom:36px;">Déjanos tus datos y en menos de 2 horas un especialista en arrendamiento te presentará una propuesta personalizada para tu empresa.</p>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:var(--ink);line-height:1.1;margin-bottom:16px;">
+        Un asesor<br><em style="color:var(--gold)">te contactará</em><br>hoy mismo
+      </h2>
+      <p style="font-size:13px;line-height:1.85;color:var(--ink-mid);margin-bottom:36px;">
+        Déjanos tus datos y en menos de 2 horas un especialista te presentará una propuesta personalizada.
+      </p>
       <div class="contact-detail">
         <div class="contact-icon">📍</div>
         <div class="contact-detail-text">
-          <div class="contact-detail-label">Ubicación</div>
+          <div class="contact-label">Ubicación</div>
           Monterrey, Nuevo León, México
         </div>
       </div>
       <div class="contact-detail">
         <div class="contact-icon">📞</div>
         <div class="contact-detail-text">
-          <div class="contact-detail-label">Teléfono</div>
+          <div class="contact-label">Teléfono</div>
           +52 (81) 0000-0000
         </div>
       </div>
       <div class="contact-detail">
         <div class="contact-icon">✉️</div>
         <div class="contact-detail-text">
-          <div class="contact-detail-label">Email</div>
-          <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ff9c90918b9e9c8b90bf8b9e938a87d19287">[email&#160;protected]</a>
+          <div class="contact-label">Email</div>
+          contacto@talux.mx
         </div>
       </div>
     </div>
 
-    <!-- TALLY FORM EMBED (método oficial) -->
-    <div class="tally-wrapper" id="contactForm">
-      <div data-tally-src="https://tally.so/r/ODAQRR" data-tally-layout="default" data-tally-hide-title="1" data-tally-transparent-background="1" data-tally-dynamic-height="1" style="width:100%;"></div>
-      <p style="font-size:10px;color:var(--gray);text-align:center;letter-spacing:0.06em;margin-top:12px;">
+    <!-- TALLY FORM EMBED -->
+    <div class="tally-wrapper">
+      <div data-tally-src="https://tally.so/r/ODAQRR"
+           data-tally-layout="default"
+           data-tally-hide-title="1"
+           data-tally-transparent-background="1"
+           data-tally-dynamic-height="1"
+           style="width:100%;"></div>
+      <p style="font-size:10px;color:var(--ink-soft);text-align:center;letter-spacing:.06em;margin-top:12px;">
         Tus datos están protegidos · Sin spam · Sin compromisos
       </p>
     </div>
-    <!-- Script oficial de Tally -->
-    <script src="https://tally.so/widgets/embed.js"></script>
   </div>
 </div>
 
@@ -885,96 +585,75 @@
 <footer>
   <div class="footer-logo">TAL<span>UX</span></div>
   <div class="footer-copy">© 2025 TALUX · Arrendamiento Vehicular Empresarial · Monterrey, México</div>
-  <div style="font-size:10px;color:var(--gray);letter-spacing:0.1em;">TODOS LOS DERECHOS RESERVADOS</div>
+  <div style="font-size:10px;color:var(--ink-soft);letter-spacing:.1em;">TODOS LOS DERECHOS RESERVADOS</div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-/* ── CURSOR ── */
+<!-- Tally script (método oficial) -->
+<script src="https://tally.so/widgets/embed.js"></script>
+
+<script>
+/* CURSOR */
 const cur = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
 let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove', e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
-(function animate(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animate);})();
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function anim(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})();
 document.querySelectorAll('button,a,input,select,textarea').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cur.style.width='6px';cur.style.height='6px';ring.style.width='50px';ring.style.height='50px';});
+  el.addEventListener('mouseenter',()=>{cur.style.width='6px';cur.style.height='6px';ring.style.width='52px';ring.style.height='52px';});
   el.addEventListener('mouseleave',()=>{cur.style.width='10px';cur.style.height='10px';ring.style.width='36px';ring.style.height='36px';});
 });
 
-/* ── NAV SCROLL ── */
+/* NAV SCROLL */
 window.addEventListener('scroll',()=>{
-  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY>60);
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);
 });
 
-/* ── REVEAL ON SCROLL ── */
-const observer = new IntersectionObserver(entries=>{
+/* REVEAL */
+const obs = new IntersectionObserver(entries=>{
   entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
-},{threshold:0.1});
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-/* ── UTM CAPTURE ── */
-const params = new URLSearchParams(location.search);
-document.getElementById('f-utm-source').value   = params.get('utm_source') || '';
-document.getElementById('f-utm-medium').value   = params.get('utm_medium') || '';
-document.getElementById('f-utm-campaign').value = params.get('utm_campaign') || '';
-document.getElementById('f-utm-term').value     = params.get('utm_term') || '';
-
-/* ── TOAST ── */
-function showToast(title, msg){
-  const t = document.getElementById('toast');
-  document.getElementById('toastTitle').textContent = title;
-  document.getElementById('toastMsg').textContent = msg;
+/* TOAST */
+function showToast(title,msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toastTitle').textContent=title;
+  document.getElementById('toastMsg').textContent=msg;
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 3500);
+  setTimeout(()=>t.classList.remove('show'),3500);
 }
 
-/* ── CALCULATOR ── */
-function fmt(n){ return '$' + Math.round(n).toLocaleString('es-MX'); }
+/* CALCULATOR */
+function fmt(n){ return '$'+Math.round(n).toLocaleString('es-MX'); }
 function updateCalc(){
   const val  = +document.getElementById('vehicleSlider').value;
   const term = +document.getElementById('termSelect').value;
   const rate = +document.getElementById('typeSelect').value;
-  const renta = val / term;
-  const deduccion = renta * term;
-  const ahorro = deduccion * rate;
-  document.getElementById('sliderDisplay').textContent = fmt(val) + ' MXN';
+  const renta = val/term;
+  const deduccion = renta*term;
+  const ahorro = deduccion*rate;
+  document.getElementById('sliderDisplay').textContent = fmt(val)+' MXN';
   document.getElementById('savingsDisplay').textContent = fmt(ahorro);
   document.getElementById('r-valor').textContent     = fmt(val);
   document.getElementById('r-renta').textContent     = fmt(renta);
   document.getElementById('r-deduccion').textContent = fmt(deduccion);
   document.getElementById('r-ahorro').textContent    = fmt(ahorro);
-  document.getElementById('r-plazo').textContent     = term + ' meses';
+  document.getElementById('r-plazo').textContent     = term+' meses';
 }
 updateCalc();
 
-/* ── SCROLL TO ── */
-function scrollTo(sel){
-  document.querySelector(sel).scrollIntoView({behavior:'smooth'});
+/* GA4 EVENTS */
+function trackCotizar(){
+  gtag('event','click_cotizar',{event_category:'engagement',event_label:'Botón Cotizar'});
+  showToast('✓ Evento GA4','click_cotizar registrado');
+  document.querySelector('#contacto').scrollIntoView({behavior:'smooth'});
 }
-
-/* ── TALLY: escuchar envío del formulario ── */
-window.addEventListener('message', function(e){
-  if(e.data && e.data.event === 'Tally.FormSubmitted'){
-    gtag('event','generate_lead',{
-      event_category:'conversion',
-      event_label:'Tally Form - Contáctanos'
-    });
-    showToast('✓ Formulario enviado','Un asesor te contactará en breve');
+window.addEventListener('message',function(e){
+  if(e.data && e.data.event==='Tally.FormSubmitted'){
+    gtag('event','generate_lead',{event_category:'conversion',event_label:'Tally Form'});
+    showToast('✓ Solicitud enviada','Un asesor te contactará en breve');
   }
 });
-
-
-function trackCotizar(){
-  gtag('event','click_cotizar',{event_category:'engagement',event_label:'Botón Cotizar'});
-  showToast('✓ Evento GA4','click_cotizar registrado');
-  document.querySelector('#contacto').scrollIntoView({behavior:'smooth'});
-}
-
-
-function trackCotizar(){
-  gtag('event','click_cotizar',{event_category:'engagement',event_label:'Botón Cotizar'});
-  showToast('✓ Evento GA4','click_cotizar registrado');
-  document.querySelector('#contacto').scrollIntoView({behavior:'smooth'});
-}
 </script>
 </body>
 </html>
