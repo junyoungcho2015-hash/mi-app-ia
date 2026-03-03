@@ -19,16 +19,16 @@
 
   <style>
     :root {
-      --gold: #d4af37;
-      --gold-light: #f0d060;
-      --gold-dim: #a8882a;
-      --black: #020202;
-      --dark: #0a0a0a;
-      --dark2: #111111;
-      --dark3: #1a1a1a;
-      --gray: #888;
-      --gray-light: #bbb;
-      --white: #f5f0e8;
+      --gold: #b8941f;
+      --gold-light: #d4af37;
+      --gold-dim: #9a7a18;
+      --black: #1a1410;
+      --dark: #f7f5f0;
+      --dark2: #f0ece3;
+      --dark3: #e8e2d6;
+      --gray: #7a7060;
+      --gray-light: #5a5040;
+      --white: #1a1410;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,8 +36,8 @@
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--black);
-      color: var(--white);
+      background: #faf8f4;
+      color: #1a1410;
       font-family: 'Montserrat', sans-serif;
       font-weight: 300;
       overflow-x: hidden;
@@ -86,16 +86,16 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: linear-gradient(to bottom, rgba(2,2,2,0.95), transparent);
+      background: linear-gradient(to bottom, rgba(250,248,244,0.97), transparent);
       transition: background 0.4s;
     }
-    nav.scrolled { background: rgba(2,2,2,0.97); border-bottom: 1px solid rgba(212,175,55,0.12); }
+    nav.scrolled { background: rgba(250,248,244,0.98); border-bottom: 1px solid rgba(184,148,31,0.15); }
     .nav-logo {
       font-family: 'Cormorant Garamond', serif;
       font-size: 28px;
       font-weight: 600;
       letter-spacing: 0.12em;
-      color: var(--white);
+      color: #1a1410;
       text-decoration: none;
     }
     .nav-logo span { color: var(--gold); }
@@ -109,7 +109,7 @@
       font-weight: 500;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--gray-light);
+      color: #7a7060;
       text-decoration: none;
       transition: color 0.3s;
     }
@@ -119,7 +119,7 @@
       font-weight: 600;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--black);
+      color: #fff;
       background: var(--gold);
       padding: 10px 22px;
       border-radius: 2px;
@@ -146,7 +146,7 @@
       content: '';
       position: absolute;
       width: 700px; height: 700px;
-      background: radial-gradient(circle, rgba(212,175,55,0.07) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(184,148,31,0.06) 0%, transparent 70%);
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       pointer-events: none;
@@ -201,7 +201,7 @@
       font-size: clamp(18px, 3vw, 26px);
       font-weight: 300;
       font-style: italic;
-      color: var(--gray);
+      color: #7a7060;
       margin-bottom: 52px;
       letter-spacing: 0.04em;
       opacity: 0;
@@ -217,7 +217,7 @@
     }
     .btn-primary {
       background: var(--gold);
-      color: var(--black);
+      color: #fff;
       padding: 16px 40px;
       border: none;
       border-radius: 2px;
@@ -228,18 +228,18 @@
       text-transform: uppercase;
       cursor: none;
       transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
-      box-shadow: 0 0 0 rgba(212,175,55,0);
+      box-shadow: 0 0 0 rgba(184,148,31,0);
     }
     .btn-primary:hover {
       background: var(--gold-light);
       transform: translateY(-2px);
-      box-shadow: 0 12px 40px rgba(212,175,55,0.25);
+      box-shadow: 0 12px 40px rgba(184,148,31,0.25);
     }
     .btn-outline {
       background: transparent;
-      color: var(--white);
+      color: #1a1410;
       padding: 15px 40px;
-      border: 1px solid rgba(245,240,232,0.25);
+      border: 1px solid rgba(26,20,16,0.25);
       border-radius: 2px;
       font-family: 'Montserrat', sans-serif;
       font-size: 11px;
@@ -272,7 +272,7 @@
       font-size: 9px;
       letter-spacing: 0.28em;
       text-transform: uppercase;
-      color: var(--gray);
+      color: #9a9080;
     }
     .scroll-line {
       width: 1px;
@@ -283,8 +283,9 @@
 
     /* STATS BAR */
     .stats-bar {
-      border-top: 1px solid rgba(212,175,55,0.12);
-      border-bottom: 1px solid rgba(212,175,55,0.12);
+      border-top: 1px solid rgba(184,148,31,0.2);
+      border-bottom: 1px solid rgba(184,148,31,0.2);
+      background: #f0ece3;
       padding: 44px 48px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -300,7 +301,7 @@
       position: absolute;
       right: 0; top: 20%; bottom: 20%;
       width: 1px;
-      background: rgba(212,175,55,0.2);
+      background: rgba(184,148,31,0.3);
     }
     .stat-num {
       font-family: 'Cormorant Garamond', serif;
@@ -314,7 +315,7 @@
       font-size: 10px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: var(--gray);
+      color: #7a7060;
     }
 
     /* SECTION */
@@ -341,7 +342,7 @@
     .section-body {
       font-size: 14px;
       line-height: 1.85;
-      color: var(--gray-light);
+      color: #5a5040;
       max-width: 540px;
     }
 
@@ -353,7 +354,7 @@
       margin-top: 60px;
     }
     .benefit-card {
-      background: var(--dark2);
+      background: #f0ece3;
       padding: 40px 32px;
       position: relative;
       overflow: hidden;
@@ -368,36 +369,36 @@
       transform: scaleX(0);
       transition: transform 0.4s;
     }
-    .benefit-card:hover { background: #161616; }
+    .benefit-card:hover { background: #e8e2d5; }
     .benefit-card:hover::before { transform: scaleX(1); }
     .benefit-num {
       font-family: 'Cormorant Garamond', serif;
       font-size: 64px;
       font-weight: 300;
-      color: rgba(212,175,55,0.1);
+      color: rgba(184,148,31,0.18);
       line-height: 1;
       margin-bottom: 16px;
       transition: color 0.4s;
     }
-    .benefit-card:hover .benefit-num { color: rgba(212,175,55,0.25); }
+    .benefit-card:hover .benefit-num { color: rgba(184,148,31,0.35); }
     .benefit-title {
       font-size: 13px;
       font-weight: 600;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--white);
+      color: #1a1410;
       margin-bottom: 12px;
     }
     .benefit-text {
       font-size: 13px;
       line-height: 1.75;
-      color: var(--gray);
+      color: #6a6050;
     }
 
     /* FISCAL EXAMPLE */
     .fiscal-section {
-      background: var(--dark2);
-      border: 1px solid rgba(212,175,55,0.15);
+      background: #f0ece3;
+      border: 1px solid rgba(184,148,31,0.25);
       border-radius: 4px;
       overflow: hidden;
     }
@@ -408,11 +409,11 @@
     }
     .fiscal-left {
       padding: 64px 56px;
-      border-right: 1px solid rgba(212,175,55,0.12);
+      border-right: 1px solid rgba(184,148,31,0.2);
     }
     .fiscal-right {
       padding: 64px 56px;
-      background: rgba(212,175,55,0.03);
+      background: rgba(184,148,31,0.04);
     }
     .amount-display {
       font-family: 'Cormorant Garamond', serif;
@@ -426,7 +427,7 @@
       font-size: 10px;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: var(--gray);
+      color: #7a7060;
     }
     .divider-gold {
       width: 40px;
@@ -441,17 +442,17 @@
       font-size: 10px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--gray);
+      color: #7a7060;
       display: block;
       margin-bottom: 8px;
     }
     .input-field {
       width: 100%;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(212,175,55,0.2);
+      background: #fff;
+      border: 1px solid rgba(184,148,31,0.3);
       border-radius: 2px;
       padding: 12px 16px;
-      color: var(--white);
+      color: #1a1410;
       font-family: 'Montserrat', sans-serif;
       font-size: 13px;
       font-weight: 300;
@@ -459,7 +460,7 @@
       transition: border-color 0.3s;
     }
     .input-field:focus { border-color: var(--gold); }
-    .input-field::placeholder { color: var(--gray); }
+    .input-field::placeholder { color: #aaa090; }
     select.input-field { cursor: none; }
 
     /* RANGE SLIDER */
@@ -468,7 +469,7 @@
       -webkit-appearance: none;
       width: 100%;
       height: 2px;
-      background: rgba(212,175,55,0.2);
+      background: rgba(184,148,31,0.25);
       outline: none;
       border-radius: 2px;
       cursor: none;
@@ -482,19 +483,19 @@
       transition: box-shadow 0.3s;
     }
     input[type=range]::-webkit-slider-thumb:hover {
-      box-shadow: 0 0 0 6px rgba(212,175,55,0.15);
+      box-shadow: 0 0 0 6px rgba(184,148,31,0.15);
     }
     .slider-val {
       font-family: 'Cormorant Garamond', serif;
       font-size: 32px;
-      color: var(--white);
+      color: #1a1410;
       margin-bottom: 8px;
     }
 
     /* SAVINGS BOX */
     .savings-box {
-      background: rgba(212,175,55,0.07);
-      border: 1px solid rgba(212,175,55,0.25);
+      background: rgba(184,148,31,0.07);
+      border: 1px solid rgba(184,148,31,0.3);
       border-radius: 3px;
       padding: 24px;
       margin-top: 24px;
@@ -504,11 +505,11 @@
       justify-content: space-between;
       align-items: center;
       padding: 8px 0;
-      border-bottom: 1px solid rgba(212,175,55,0.1);
+      border-bottom: 1px solid rgba(184,148,31,0.12);
     }
     .savings-row:last-child { border-bottom: none; padding-bottom: 0; }
-    .savings-key { font-size: 11px; color: var(--gray); letter-spacing: 0.08em; }
-    .savings-val { font-size: 13px; font-weight: 600; color: var(--gold-light); }
+    .savings-key { font-size: 11px; color: #7a7060; letter-spacing: 0.08em; }
+    .savings-val { font-size: 13px; font-weight: 600; color: var(--gold); }
 
     /* CONTACT */
     .contact-wrap {
@@ -530,7 +531,7 @@
     .contact-info p {
       font-size: 13px;
       line-height: 1.85;
-      color: var(--gray-light);
+      color: #5a5040;
       margin-bottom: 36px;
     }
     .contact-detail {
@@ -541,19 +542,46 @@
     }
     .contact-icon {
       width: 32px; height: 32px;
-      border: 1px solid rgba(212,175,55,0.3);
+      border: 1px solid rgba(184,148,31,0.4);
       border-radius: 2px;
       display: flex; align-items: center; justify-content: center;
       font-size: 14px;
       flex-shrink: 0;
       margin-top: 2px;
     }
-    .contact-detail-text { font-size: 13px; color: var(--gray-light); line-height: 1.6; }
+    .contact-detail-text { font-size: 13px; color: #5a5040; line-height: 1.6; }
     .contact-detail-label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 2px; }
+
+    /* TALLY WRAPPER */
+    .tally-wrapper {
+      position: relative;
+      background: #f0ece3;
+      border: 1px solid rgba(184,148,31,0.2);
+      border-radius: 4px;
+      padding: 32px 28px 20px;
+      min-height: 700px;
+    }
+    .tally-wrapper iframe {
+      display: block;
+      width: 100%;
+      min-height: 700px;
+      border: none;
+      background: transparent;
+    }
+    .tally-overlay {
+      position: absolute;
+      inset: 0;
+      border-radius: 4px;
+      background: #f0ece3;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .tally-wrapper iframe { position: relative; z-index: 1; }
 
     /* FOOTER */
     footer {
-      border-top: 1px solid rgba(212,175,55,0.1);
+      border-top: 1px solid rgba(184,148,31,0.2);
+      background: #f0ece3;
       padding: 40px 48px;
       display: flex;
       align-items: center;
@@ -566,12 +594,12 @@
       font-size: 22px;
       font-weight: 600;
       letter-spacing: 0.1em;
-      color: var(--white);
+      color: #1a1410;
     }
     .footer-logo span { color: var(--gold); }
     .footer-copy {
       font-size: 11px;
-      color: var(--gray);
+      color: #7a7060;
       letter-spacing: 0.08em;
     }
 
@@ -600,47 +628,21 @@
       position: fixed;
       bottom: 32px;
       right: 32px;
-      background: var(--dark3);
-      border: 1px solid rgba(212,175,55,0.35);
+      background: #fff;
+      border: 1px solid rgba(184,148,31,0.4);
       border-radius: 4px;
       padding: 16px 22px;
       font-size: 12px;
-      color: var(--white);
+      color: #1a1410;
       z-index: 200;
       transform: translateY(80px);
       opacity: 0;
       transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s;
       pointer-events: none;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
     }
     .toast.show { transform: translateY(0); opacity: 1; }
     .toast-title { font-weight: 600; color: var(--gold); margin-bottom: 2px; font-size: 12px; }
-
-    /* TALLY WRAPPER */
-    .tally-wrapper {
-      position: relative;
-      background: #111;
-      border: 1px solid rgba(212,175,55,0.15);
-      border-radius: 4px;
-      padding: 32px 28px 20px;
-      min-height: 700px;
-    }
-    .tally-wrapper iframe {
-      display: block;
-      width: 100%;
-      min-height: 700px;
-      border: none;
-      background: transparent;
-    }
-    /* Tint overlay — sits behind iframe but colors the section background */
-    .tally-overlay {
-      position: absolute;
-      inset: 0;
-      border-radius: 4px;
-      background: #111;
-      z-index: 0;
-      pointer-events: none;
-    }
-    .tally-wrapper iframe { position: relative; z-index: 1; }
 
     /* RESPONSIVE */
     @media (max-width: 900px) {
@@ -757,7 +759,7 @@
 </div>
 
 <!-- FISCAL CALCULATOR -->
-<div id="fiscal" style="background: var(--dark);">
+<div id="fiscal" style="background: #f0ece3;">
   <div class="section reveal">
     <p class="section-tag">Calculadora de ahorro</p>
     <h2 class="section-title">Tu <em>beneficio fiscal</em><br>en números reales</h2>
