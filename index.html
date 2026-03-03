@@ -2,24 +2,22 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>TALUX – Arrendamiento Inteligente</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TALUX | Arrendamiento Inteligente</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Google Analytics (opcional) -->
-  <!--
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-B1DDBJ96RK"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-XXXXXXX');
+    gtag('config', 'G-B1DDBJ96RK');
   </script>
-  -->
 
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       background: #050505;
       color: white;
     }
@@ -28,30 +26,29 @@
       text-align: center;
       background: black;
     }
+    .gold {
+      color: #d4af37;
+    }
     section {
       padding: 60px 20px;
-      max-width: 1100px;
+      max-width: 900px;
       margin: auto;
     }
-    h1 { font-size: 48px; }
-    h2 { font-size: 32px; margin-bottom: 20px; }
     .btn {
-      background: gold;
+      background: linear-gradient(135deg, #d4af37, #f7e27c);
       color: black;
-      padding: 14px 28px;
+      padding: 15px 30px;
+      border: none;
       border-radius: 30px;
-      text-decoration: none;
       font-weight: bold;
-      display: inline-block;
+      cursor: pointer;
+      font-size: 16px;
     }
     .box {
       background: #111;
-      padding: 20px;
-      border-radius: 16px;
-      margin-bottom: 20px;
-    }
-    input[type="range"] {
-      width: 100%;
+      padding: 30px;
+      border-radius: 20px;
+      margin-top: 30px;
     }
   </style>
 </head>
@@ -59,66 +56,46 @@
 <body>
 
 <header>
-  <h1>Arrendamiento Inteligente</h1>
-  <p>Optimiza el flujo de caja de tu empresa con beneficios fiscales.</p>
-  <a href="#calculadora" class="btn">Calcular mi ahorro</a>
+  <h1>TAL<span class="gold">UX</span></h1>
+  <p>Arrendamiento vehicular empresarial inteligente</p>
+  <button class="btn" onclick="trackCotizar()">Cotizar ahora</button>
 </header>
 
-<section id="beneficios">
-  <h2>Beneficios TALUX</h2>
-  <div class="box">✅ Ahorro fiscal estimado del 25%</div>
-  <div class="box">✅ Sin deuda (off-balance)</div>
-  <div class="box">✅ Renovación constante</div>
-</section>
-
-<section id="calculadora">
-  <h2>Simulador de Ahorro Fiscal</h2>
-
+<section>
+  <h2 class="gold">Beneficio fiscal</h2>
   <p>
-    Valor del vehículo:
-    <strong>$<span id="precio">850,000</span> MXN</strong>
+    El arrendamiento permite recuperar aproximadamente el <b>25%</b> del valor del vehículo
+    como deducción fiscal.
   </p>
 
-  <input
-    type="range"
-    min="300000"
-    max="3500000"
-    step="50000"
-    value="850000"
-    oninput="calcular(this.value)"
-  />
-
   <div class="box">
-    <p>Ahorro fiscal estimado (25%)</p>
-    <h2>$<span id="ahorro">212,500</span> MXN</h2>
+    <h3>Ejemplo</h3>
+    <p>Auto de $1,000,000 MXN</p>
+    <p><b>Ahorro fiscal estimado: $250,000 MXN</b></p>
   </div>
 </section>
 
-<section id="cotizar">
-  <h2>Solicita tu cotización</h2>
-
-  <iframe
-    src="https://tally.so/r/ODAQRR?hide-title=1&hide-description=1"
-    width="100%"
-    height="700"
-    frameborder="0">
-  </iframe>
+<section>
+  <h2 class="gold">Contacto</h2>
+  <p>Déjanos tus datos y un asesor te contactará.</p>
+  <button class="btn" onclick="trackLead()">Enviar datos</button>
 </section>
 
-<footer>
-  <section>
-    <p>© 2024 TALUX Arrendamiento</p>
-  </section>
-</footer>
-
 <script>
-  function calcular(valor) {
-    document.getElementById("precio").innerText =
-      Number(valor).toLocaleString("es-MX");
+  function trackCotizar() {
+    gtag('event', 'click_cotizar', {
+      event_category: 'engagement',
+      event_label: 'Botón Cotizar'
+    });
+    alert('Evento enviado a Google Analytics');
+  }
 
-    const ahorro = valor * 0.25;
-    document.getElementById("ahorro").innerText =
-      ahorro.toLocaleString("es-MX");
+  function trackLead() {
+    gtag('event', 'generate_lead', {
+      event_category: 'conversion',
+      event_label: 'Formulario'
+    });
+    alert('Lead enviado a Google Analytics');
   }
 </script>
 
