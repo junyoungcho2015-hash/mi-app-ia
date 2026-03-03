@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>TALUX | Arrendamiento Inteligente</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <title>TALUX | Arrendamiento Vehicular Empresarial</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Arrendamiento vehicular empresarial inteligente. Maximiza tus deducciones fiscales con TALUX."/>
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-B1DDBJ96RK"></script>
@@ -14,90 +15,1006 @@
     gtag('config', 'G-B1DDBJ96RK');
   </script>
 
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+
   <style>
+    :root {
+      --gold: #d4af37;
+      --gold-light: #f0d060;
+      --gold-dim: #a8882a;
+      --black: #020202;
+      --dark: #0a0a0a;
+      --dark2: #111111;
+      --dark3: #1a1a1a;
+      --gray: #888;
+      --gray-light: #bbb;
+      --white: #f5f0e8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #050505;
-      color: white;
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
     }
-    header {
-      padding: 40px;
+
+    /* CUSTOM CURSOR */
+    .cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.3s, height 0.3s, opacity 0.3s;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(212,175,55,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.18s ease-out, width 0.3s, height 0.3s;
+    }
+
+    /* GRAIN OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.4;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      padding: 22px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to bottom, rgba(2,2,2,0.95), transparent);
+      transition: background 0.4s;
+    }
+    nav.scrolled { background: rgba(2,2,2,0.97); border-bottom: 1px solid rgba(212,175,55,0.12); }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray-light);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--black);
+      background: var(--gold);
+      padding: 10px 22px;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      background: black;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
     }
-    .gold {
-      color: #d4af37;
+
+    /* Gold orb bg */
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(212,175,55,0.07) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
     }
-    section {
-      padding: 60px 20px;
-      max-width: 900px;
-      margin: auto;
+
+    /* Diagonal line accents */
+    .hero-lines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
     }
-    .btn {
-      background: linear-gradient(135deg, #d4af37, #f7e27c);
-      color: black;
-      padding: 15px 30px;
+    .hero-lines::before {
+      content: '';
+      position: absolute;
+      width: 1px; height: 200px;
+      background: linear-gradient(to bottom, transparent, var(--gold-dim), transparent);
+      left: 15%; top: 20%;
+      opacity: 0.4;
+    }
+    .hero-lines::after {
+      content: '';
+      position: absolute;
+      width: 1px; height: 150px;
+      background: linear-gradient(to bottom, transparent, var(--gold-dim), transparent);
+      right: 18%; top: 30%;
+      opacity: 0.3;
+    }
+
+    .hero-tag {
+      font-size: 10px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(56px, 10vw, 110px);
+      font-weight: 300;
+      line-height: 0.92;
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.35s forwards;
+    }
+    .hero-title .gold { color: var(--gold); font-style: italic; }
+    .hero-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(18px, 3vw, 26px);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--gray);
+      margin-bottom: 52px;
+      letter-spacing: 0.04em;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.5s forwards;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.65s forwards;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--black);
+      padding: 16px 40px;
       border: none;
-      border-radius: 30px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 16px;
+      border-radius: 2px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: none;
+      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+      box-shadow: 0 0 0 rgba(212,175,55,0);
     }
-    .box {
-      background: #111;
-      padding: 30px;
-      border-radius: 20px;
-      margin-top: 30px;
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(212,175,55,0.25);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      padding: 15px 40px;
+      border: 1px solid rgba(245,240,232,0.25);
+      border-radius: 2px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: none;
+      transition: border-color 0.3s, color 0.3s, transform 0.2s;
+    }
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    /* SCROLL INDICATOR */
+    .scroll-hint {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeUp 1s 1.2s forwards;
+    }
+    .scroll-hint span {
+      font-size: 9px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, var(--gold-dim), transparent);
+      animation: scrollPulse 2s 1.5s infinite;
+    }
+
+    /* STATS BAR */
+    .stats-bar {
+      border-top: 1px solid rgba(212,175,55,0.12);
+      border-bottom: 1px solid rgba(212,175,55,0.12);
+      padding: 44px 48px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 0 24px;
+      position: relative;
+    }
+    .stat-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 20%; bottom: 20%;
+      width: 1px;
+      background: rgba(212,175,55,0.2);
+    }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 52px;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+
+    /* SECTION */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 100px 48px;
+    }
+    .section-tag {
+      font-size: 10px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 5vw, 58px);
+      font-weight: 300;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+    .section-title em { color: var(--gold); font-style: italic; }
+    .section-body {
+      font-size: 14px;
+      line-height: 1.85;
+      color: var(--gray-light);
+      max-width: 540px;
+    }
+
+    /* BENEFIT CARD */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 60px;
+    }
+    .benefit-card {
+      background: var(--dark2);
+      padding: 40px 32px;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s;
+    }
+    .benefit-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      transform: scaleX(0);
+      transition: transform 0.4s;
+    }
+    .benefit-card:hover { background: #161616; }
+    .benefit-card:hover::before { transform: scaleX(1); }
+    .benefit-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 64px;
+      font-weight: 300;
+      color: rgba(212,175,55,0.1);
+      line-height: 1;
+      margin-bottom: 16px;
+      transition: color 0.4s;
+    }
+    .benefit-card:hover .benefit-num { color: rgba(212,175,55,0.25); }
+    .benefit-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+    .benefit-text {
+      font-size: 13px;
+      line-height: 1.75;
+      color: var(--gray);
+    }
+
+    /* FISCAL EXAMPLE */
+    .fiscal-section {
+      background: var(--dark2);
+      border: 1px solid rgba(212,175,55,0.15);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .fiscal-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .fiscal-left {
+      padding: 64px 56px;
+      border-right: 1px solid rgba(212,175,55,0.12);
+    }
+    .fiscal-right {
+      padding: 64px 56px;
+      background: rgba(212,175,55,0.03);
+    }
+    .amount-display {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 58px;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      margin: 20px 0 8px;
+    }
+    .amount-label {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+    .divider-gold {
+      width: 40px;
+      height: 1px;
+      background: var(--gold-dim);
+      margin: 24px 0;
+    }
+    .input-row {
+      margin-bottom: 22px;
+    }
+    .input-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray);
+      display: block;
+      margin-bottom: 8px;
+    }
+    .input-field {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(212,175,55,0.2);
+      border-radius: 2px;
+      padding: 12px 16px;
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .input-field:focus { border-color: var(--gold); }
+    .input-field::placeholder { color: var(--gray); }
+    select.input-field { cursor: none; }
+
+    /* RANGE SLIDER */
+    .slider-wrap { position: relative; }
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 2px;
+      background: rgba(212,175,55,0.2);
+      outline: none;
+      border-radius: 2px;
+      cursor: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--gold);
+      cursor: none;
+      transition: box-shadow 0.3s;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      box-shadow: 0 0 0 6px rgba(212,175,55,0.15);
+    }
+    .slider-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    /* SAVINGS BOX */
+    .savings-box {
+      background: rgba(212,175,55,0.07);
+      border: 1px solid rgba(212,175,55,0.25);
+      border-radius: 3px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+    .savings-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(212,175,55,0.1);
+    }
+    .savings-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .savings-key { font-size: 11px; color: var(--gray); letter-spacing: 0.08em; }
+    .savings-val { font-size: 13px; font-weight: 600; color: var(--gold-light); }
+
+    /* CONTACT */
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .contact-info { padding-top: 8px; }
+    .contact-info h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 300;
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+    .contact-info p {
+      font-size: 13px;
+      line-height: 1.85;
+      color: var(--gray-light);
+      margin-bottom: 36px;
+    }
+    .contact-detail {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+    .contact-icon {
+      width: 32px; height: 32px;
+      border: 1px solid rgba(212,175,55,0.3);
+      border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .contact-detail-text { font-size: 13px; color: var(--gray-light); line-height: 1.6; }
+    .contact-detail-label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 2px; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(212,175,55,0.1);
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--white);
+    }
+    .footer-logo span { color: var(--gold); }
+    .footer-copy {
+      font-size: 11px;
+      color: var(--gray);
+      letter-spacing: 0.08em;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* TOAST */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      background: var(--dark3);
+      border: 1px solid rgba(212,175,55,0.35);
+      border-radius: 4px;
+      padding: 16px 22px;
+      font-size: 12px;
+      color: var(--white);
+      z-index: 200;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s;
+      pointer-events: none;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast-title { font-weight: 600; color: var(--gold); margin-bottom: 2px; font-size: 12px; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 18px 24px; }
+      .nav-links { display: none; }
+      .stats-bar { grid-template-columns: 1fr; gap: 32px; padding: 40px 24px; }
+      .stat-item::after { display: none; }
+      .benefits-grid { grid-template-columns: 1fr; gap: 2px; }
+      .fiscal-inner { grid-template-columns: 1fr; }
+      .fiscal-left { border-right: none; border-bottom: 1px solid rgba(212,175,55,0.12); padding: 40px 28px; }
+      .fiscal-right { padding: 40px 28px; }
+      .contact-wrap { grid-template-columns: 1fr; gap: 48px; }
+      .form-row { grid-template-columns: 1fr; }
+      .section { padding: 64px 24px; }
+      footer { flex-direction: column; text-align: center; padding: 32px 24px; }
+      body { cursor: auto; }
+      .cursor, .cursor-ring { display: none; }
     }
   </style>
 </head>
-
 <body>
 
-<header>
-  <h1>TAL<span class="gold">UX</span></h1>
-  <p>Arrendamiento vehicular empresarial inteligente</p>
-  <button class="btn" onclick="trackCotizar()">Cotizar ahora</button>
-</header>
+<!-- CUSTOM CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 
-<section>
-  <h2 class="gold">Beneficio fiscal</h2>
-  <p>
-    El arrendamiento permite recuperar aproximadamente el <b>25%</b> del valor del vehículo
-    como deducción fiscal.
-  </p>
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-title" id="toastTitle">✓ Evento registrado</div>
+  <div id="toastMsg"></div>
+</div>
 
-  <div class="box">
-    <h3>Ejemplo</h3>
-    <p>Auto de $1,000,000 MXN</p>
-    <p><b>Ahorro fiscal estimado: $250,000 MXN</b></p>
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">TAL<span>UX</span></a>
+  <ul class="nav-links">
+    <li><a href="#beneficios">Beneficios</a></li>
+    <li><a href="#fiscal">Fiscal</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a href="#contacto" class="nav-cta" onclick="trackCotizar()">Cotizar ahora</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-lines"></div>
+  <p class="hero-tag">Arrendamiento vehicular empresarial</p>
+  <h1 class="hero-title">TAL<span class="gold">UX</span></h1>
+  <p class="hero-sub">Inteligencia financiera sobre ruedas</p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="trackCotizar()">Cotizar ahora</button>
+    <button class="btn-outline" onclick="scrollTo('#fiscal')">Ver beneficio fiscal</button>
+  </div>
+  <div class="scroll-hint">
+    <span>Descubrir</span>
+    <div class="scroll-line"></div>
   </div>
 </section>
 
-<section>
-  <h2 class="gold">Contacto</h2>
-  <p>Déjanos tus datos y un asesor te contactará.</p>
-  <button class="btn" onclick="trackLead()">Enviar datos</button>
-</section>
+<!-- STATS -->
+<div class="stats-bar reveal">
+  <div class="stat-item">
+    <div class="stat-num">25<span style="font-size:28px">%</span></div>
+    <div class="stat-label">Deducción fiscal estimada</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">100<span style="font-size:28px">%</span></div>
+    <div class="stat-label">Financiamiento del vehículo</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">0</div>
+    <div class="stat-label">Enganche requerido</div>
+  </div>
+</div>
+
+<!-- BENEFICIOS -->
+<div id="beneficios" class="section reveal">
+  <p class="section-tag">Por qué TALUX</p>
+  <h2 class="section-title">Ventajas que<br>transforman tu <em>empresa</em></h2>
+  <p class="section-body">El arrendamiento vehicular empresarial no es solo una opción de movilidad — es una herramienta financiera que optimiza tus recursos, mejora tu flujo de caja y maximiza tus deducciones.</p>
+
+  <div class="benefits-grid">
+    <div class="benefit-card reveal">
+      <div class="benefit-num">01</div>
+      <div class="benefit-title">Deducción Fiscal</div>
+      <div class="benefit-text">Deduce hasta el 25% del valor del vehículo de tus impuestos. Una flota de $5M MXN puede representar $1.25M en ahorro fiscal real.</div>
+    </div>
+    <div class="benefit-card reveal" style="transition-delay:0.1s">
+      <div class="benefit-num">02</div>
+      <div class="benefit-title">Flujo de Caja</div>
+      <div class="benefit-text">Paga rentas fijas mensuales en lugar de comprometer capital. Mantén tu liquidez para invertir en lo que hace crecer tu negocio.</div>
+    </div>
+    <div class="benefit-card reveal" style="transition-delay:0.2s">
+      <div class="benefit-num">03</div>
+      <div class="benefit-title">Sin Depreciación</div>
+      <div class="benefit-text">El riesgo de depreciación del vehículo no es tuyo. Al término del contrato regresas la unidad sin preocupaciones de valor residual.</div>
+    </div>
+    <div class="benefit-card reveal" style="transition-delay:0.05s">
+      <div class="benefit-num">04</div>
+      <div class="benefit-title">Flota Actualizada</div>
+      <div class="benefit-text">Renueva tu flota al término de cada contrato. Siempre con los modelos más recientes, sin el costo de vender unidades usadas.</div>
+    </div>
+    <div class="benefit-card reveal" style="transition-delay:0.15s">
+      <div class="benefit-num">05</div>
+      <div class="benefit-title">Balance Limpio</div>
+      <div class="benefit-text">El arrendamiento operativo no aparece como pasivo en tu balance general. Mejora tus razones financieras ante bancos e inversionistas.</div>
+    </div>
+    <div class="benefit-card reveal" style="transition-delay:0.25s">
+      <div class="benefit-num">06</div>
+      <div class="benefit-title">Asesoría Total</div>
+      <div class="benefit-text">Desde la selección del vehículo hasta la estrategia fiscal, nuestros asesores acompañan cada decisión de tu empresa.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FISCAL CALCULATOR -->
+<div id="fiscal" style="background: var(--dark);">
+  <div class="section reveal">
+    <p class="section-tag">Calculadora de ahorro</p>
+    <h2 class="section-title">Tu <em>beneficio fiscal</em><br>en números reales</h2>
+
+    <div style="height:48px"></div>
+
+    <div class="fiscal-section">
+      <div class="fiscal-inner">
+        <div class="fiscal-left">
+          <p class="amount-label">Valor del vehículo</p>
+          <div class="slider-val" id="sliderDisplay">$1,000,000 MXN</div>
+          <input type="range" id="vehicleSlider" min="300000" max="5000000" step="50000" value="1000000" oninput="updateCalc()"/>
+          <div style="display:flex;justify-content:space-between;margin-top:6px;">
+            <span style="font-size:9px;color:var(--gray);letter-spacing:0.1em;">$300K</span>
+            <span style="font-size:9px;color:var(--gray);letter-spacing:0.1em;">$5M</span>
+          </div>
+
+          <div class="divider-gold"></div>
+
+          <div class="input-row">
+            <label class="input-label">Plazo del contrato</label>
+            <select class="input-field" id="termSelect" onchange="updateCalc()">
+              <option value="12">12 meses</option>
+              <option value="24">24 meses</option>
+              <option value="36" selected>36 meses</option>
+              <option value="48">48 meses</option>
+            </select>
+          </div>
+          <div class="input-row">
+            <label class="input-label">Tipo de empresa</label>
+            <select class="input-field" id="typeSelect" onchange="updateCalc()">
+              <option value="0.25">Persona Moral (ISR 25%)</option>
+              <option value="0.30">Gran empresa (ISR 30%)</option>
+              <option value="0.20">PYME (ISR 20%)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="fiscal-right">
+          <p class="amount-label">Ahorro fiscal estimado</p>
+          <div class="amount-display" id="savingsDisplay">$250,000</div>
+          <span style="font-size:11px;color:var(--gray);letter-spacing:0.1em;">MXN</span>
+
+          <div class="divider-gold"></div>
+
+          <div class="savings-box">
+            <div class="savings-row">
+              <span class="savings-key">Valor del vehículo</span>
+              <span class="savings-val" id="r-valor">$1,000,000</span>
+            </div>
+            <div class="savings-row">
+              <span class="savings-key">Renta mensual estimada</span>
+              <span class="savings-val" id="r-renta">$33,333</span>
+            </div>
+            <div class="savings-row">
+              <span class="savings-key">Deducción total (contrato)</span>
+              <span class="savings-val" id="r-deduccion">$1,200,000</span>
+            </div>
+            <div class="savings-row">
+              <span class="savings-key">Ahorro fiscal real</span>
+              <span class="savings-val" id="r-ahorro">$250,000</span>
+            </div>
+            <div class="savings-row">
+              <span class="savings-key">Plazo</span>
+              <span class="savings-val" id="r-plazo">36 meses</span>
+            </div>
+          </div>
+
+          <div style="margin-top:24px;">
+            <button class="btn-primary" style="width:100%" onclick="trackCotizar()">
+              Quiero este beneficio →
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACTO -->
+<div id="contacto" class="section reveal">
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <p class="section-tag">Contacto</p>
+      <h2 class="contact-info h3" style="font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;margin-bottom:16px;line-height:1.1;">Un asesor<br><em style="color:var(--gold)">te contactará</em><br>hoy mismo</h2>
+      <p style="font-size:13px;line-height:1.85;color:var(--gray-light);margin-bottom:36px;">Déjanos tus datos y en menos de 2 horas un especialista en arrendamiento te presentará una propuesta personalizada para tu empresa.</p>
+      <div class="contact-detail">
+        <div class="contact-icon">📍</div>
+        <div class="contact-detail-text">
+          <div class="contact-detail-label">Ubicación</div>
+          Monterrey, Nuevo León, México
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-icon">📞</div>
+        <div class="contact-detail-text">
+          <div class="contact-detail-label">Teléfono</div>
+          +52 (81) 0000-0000
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-icon">✉️</div>
+        <div class="contact-detail-text">
+          <div class="contact-detail-label">Email</div>
+          contacto@talux.mx
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form" id="contactForm">
+      <div class="form-row">
+        <div class="input-row" style="margin-bottom:0">
+          <label class="input-label">Nombre</label>
+          <input class="input-field" type="text" id="f-nombre" placeholder="Tu nombre" required/>
+        </div>
+        <div class="input-row" style="margin-bottom:0">
+          <label class="input-label">Empresa</label>
+          <input class="input-field" type="text" id="f-empresa" placeholder="Nombre de la empresa"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="input-row" style="margin-bottom:0">
+          <label class="input-label">Correo electrónico</label>
+          <input class="input-field" type="email" id="f-email" placeholder="correo@empresa.com" required/>
+        </div>
+        <div class="input-row" style="margin-bottom:0">
+          <label class="input-label">Teléfono</label>
+          <input class="input-field" type="tel" id="f-tel" placeholder="+52 (81)"/>
+        </div>
+      </div>
+      <div class="input-row" style="margin-bottom:0">
+        <label class="input-label">¿Cuántos vehículos necesitas?</label>
+        <select class="input-field" id="f-unidades">
+          <option>1 vehículo</option>
+          <option>2–5 vehículos</option>
+          <option>6–15 vehículos</option>
+          <option>Más de 15 vehículos</option>
+        </select>
+      </div>
+      <div class="input-row" style="margin-bottom:0">
+        <label class="input-label">Mensaje (opcional)</label>
+        <textarea class="input-field" id="f-mensaje" rows="3" placeholder="Cuéntanos sobre tus necesidades de flota..." style="resize:vertical"></textarea>
+      </div>
+      <!-- UTM hidden fields -->
+      <input type="hidden" id="f-utm-source"/>
+      <input type="hidden" id="f-utm-medium"/>
+      <input type="hidden" id="f-utm-campaign"/>
+      <input type="hidden" id="f-utm-term"/>
+      <button class="btn-primary" style="width:100%;margin-top:4px" onclick="submitLead()">
+        Enviar solicitud de cotización →
+      </button>
+      <p style="font-size:10px;color:var(--gray);text-align:center;letter-spacing:0.06em;">
+        Tus datos están protegidos · Sin spam · Sin compromisos
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">TAL<span>UX</span></div>
+  <div class="footer-copy">© 2025 TALUX · Arrendamiento Vehicular Empresarial · Monterrey, México</div>
+  <div style="font-size:10px;color:var(--gray);letter-spacing:0.1em;">TODOS LOS DERECHOS RESERVADOS</div>
+</footer>
 
 <script>
-  function trackCotizar() {
-    gtag('event', 'click_cotizar', {
-      event_category: 'engagement',
-      event_label: 'Botón Cotizar'
-    });
-    alert('Evento enviado a Google Analytics');
-  }
+/* ── CURSOR ── */
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function animate(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animate);})();
+document.querySelectorAll('button,a,input,select,textarea').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='6px';cur.style.height='6px';ring.style.width='50px';ring.style.height='50px';});
+  el.addEventListener('mouseleave',()=>{cur.style.width='10px';cur.style.height='10px';ring.style.width='36px';ring.style.height='36px';});
+});
 
-  function trackLead() {
-    gtag('event', 'generate_lead', {
-      event_category: 'conversion',
-      event_label: 'Formulario'
-    });
-    alert('Lead enviado a Google Analytics');
+/* ── NAV SCROLL ── */
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY>60);
+});
+
+/* ── REVEAL ON SCROLL ── */
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+/* ── UTM CAPTURE ── */
+const params = new URLSearchParams(location.search);
+document.getElementById('f-utm-source').value   = params.get('utm_source') || '';
+document.getElementById('f-utm-medium').value   = params.get('utm_medium') || '';
+document.getElementById('f-utm-campaign').value = params.get('utm_campaign') || '';
+document.getElementById('f-utm-term').value     = params.get('utm_term') || '';
+
+/* ── TOAST ── */
+function showToast(title, msg){
+  const t = document.getElementById('toast');
+  document.getElementById('toastTitle').textContent = title;
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3500);
+}
+
+/* ── CALCULATOR ── */
+function fmt(n){ return '$' + Math.round(n).toLocaleString('es-MX'); }
+function updateCalc(){
+  const val  = +document.getElementById('vehicleSlider').value;
+  const term = +document.getElementById('termSelect').value;
+  const rate = +document.getElementById('typeSelect').value;
+  const renta = val / term;
+  const deduccion = renta * term;
+  const ahorro = deduccion * rate;
+  document.getElementById('sliderDisplay').textContent = fmt(val) + ' MXN';
+  document.getElementById('savingsDisplay').textContent = fmt(ahorro);
+  document.getElementById('r-valor').textContent     = fmt(val);
+  document.getElementById('r-renta').textContent     = fmt(renta);
+  document.getElementById('r-deduccion').textContent = fmt(deduccion);
+  document.getElementById('r-ahorro').textContent    = fmt(ahorro);
+  document.getElementById('r-plazo').textContent     = term + ' meses';
+}
+updateCalc();
+
+/* ── SCROLL TO ── */
+function scrollTo(sel){
+  document.querySelector(sel).scrollIntoView({behavior:'smooth'});
+}
+
+/* ── ANALYTICS EVENTS ── */
+function trackCotizar(){
+  gtag('event','click_cotizar',{event_category:'engagement',event_label:'Botón Cotizar'});
+  showToast('✓ Evento GA4','click_cotizar registrado');
+  document.querySelector('#contacto').scrollIntoView({behavior:'smooth'});
+}
+
+function submitLead(){
+  const nombre  = document.getElementById('f-nombre').value.trim();
+  const email   = document.getElementById('f-email').value.trim();
+  if(!nombre || !email){
+    showToast('⚠ Campos requeridos','Por favor ingresa nombre y correo');
+    return;
   }
+  const payload = {
+    nombre,
+    empresa:  document.getElementById('f-empresa').value,
+    email,
+    telefono: document.getElementById('f-tel').value,
+    unidades: document.getElementById('f-unidades').value,
+    mensaje:  document.getElementById('f-mensaje').value,
+    utm_source:   document.getElementById('f-utm-source').value,
+    utm_medium:   document.getElementById('f-utm-medium').value,
+    utm_campaign: document.getElementById('f-utm-campaign').value,
+    utm_term:     document.getElementById('f-utm-term').value,
+    vehiculo_valor: document.getElementById('vehicleSlider').value,
+    timestamp: new Date().toISOString()
+  };
+
+  gtag('event','generate_lead',{
+    event_category:'conversion',
+    event_label:'Formulario Contacto',
+    value: +payload.vehiculo_valor
+  });
+
+  /* ── ZAPIER WEBHOOK ── */
+  /* Reemplaza esta URL con tu webhook de Zapier */
+  const ZAPIER_WEBHOOK = 'https://hooks.zapier.com/hooks/catch/TU_ID_AQUI/';
+  fetch(ZAPIER_WEBHOOK, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(payload),
+    mode:'no-cors'
+  }).catch(()=>{});
+
+  showToast('✓ Solicitud enviada','Un asesor te contactará en breve');
+  document.getElementById('contactForm').innerHTML = `
+    <div style="text-align:center;padding:60px 20px;">
+      <div style="font-size:48px;margin-bottom:20px;">✓</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);margin-bottom:12px;">¡Solicitud recibida!</div>
+      <div style="font-size:13px;color:var(--gray-light);line-height:1.8;">
+        Gracias, <strong style="color:var(--white)">${nombre}</strong>.<br>
+        Un asesor TALUX se pondrá en contacto contigo<br>a la brevedad posible.
+      </div>
+    </div>`;
+}
 </script>
-
 </body>
 </html>
