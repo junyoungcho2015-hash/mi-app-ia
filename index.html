@@ -615,6 +615,17 @@
     .toast.show { transform: translateY(0); opacity: 1; }
     .toast-title { font-weight: 600; color: var(--gold); margin-bottom: 2px; font-size: 12px; }
 
+    /* TALLY WRAPPER */
+    .tally-wrapper {
+      position: relative;
+    }
+    .tally-wrapper iframe {
+      border-radius: 4px;
+      min-height: 600px;
+    }
+    /* Tally custom CSS injected via URL params — dark background + gold accents */
+    /* The transparentBackground param makes Tally bg transparent so our dark bg shows */
+
     /* RESPONSIVE */
     @media (max-width: 900px) {
       nav { padding: 18px 24px; }
@@ -835,54 +846,26 @@
         <div class="contact-icon">✉️</div>
         <div class="contact-detail-text">
           <div class="contact-detail-label">Email</div>
-          contacto@talux.mx
+          <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ff9c90918b9e9c8b90bf8b9e938a87d19287">[email&#160;protected]</a>
         </div>
       </div>
     </div>
 
-    <div class="contact-form" id="contactForm">
-      <div class="form-row">
-        <div class="input-row" style="margin-bottom:0">
-          <label class="input-label">Nombre</label>
-          <input class="input-field" type="text" id="f-nombre" placeholder="Tu nombre" required/>
-        </div>
-        <div class="input-row" style="margin-bottom:0">
-          <label class="input-label">Empresa</label>
-          <input class="input-field" type="text" id="f-empresa" placeholder="Nombre de la empresa"/>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="input-row" style="margin-bottom:0">
-          <label class="input-label">Correo electrónico</label>
-          <input class="input-field" type="email" id="f-email" placeholder="correo@empresa.com" required/>
-        </div>
-        <div class="input-row" style="margin-bottom:0">
-          <label class="input-label">Teléfono</label>
-          <input class="input-field" type="tel" id="f-tel" placeholder="+52 (81)"/>
-        </div>
-      </div>
-      <div class="input-row" style="margin-bottom:0">
-        <label class="input-label">¿Cuántos vehículos necesitas?</label>
-        <select class="input-field" id="f-unidades">
-          <option>1 vehículo</option>
-          <option>2–5 vehículos</option>
-          <option>6–15 vehículos</option>
-          <option>Más de 15 vehículos</option>
-        </select>
-      </div>
-      <div class="input-row" style="margin-bottom:0">
-        <label class="input-label">Mensaje (opcional)</label>
-        <textarea class="input-field" id="f-mensaje" rows="3" placeholder="Cuéntanos sobre tus necesidades de flota..." style="resize:vertical"></textarea>
-      </div>
-      <!-- UTM hidden fields -->
-      <input type="hidden" id="f-utm-source"/>
-      <input type="hidden" id="f-utm-medium"/>
-      <input type="hidden" id="f-utm-campaign"/>
-      <input type="hidden" id="f-utm-term"/>
-      <button class="btn-primary" style="width:100%;margin-top:4px" onclick="submitLead()">
-        Enviar solicitud de cotización →
-      </button>
-      <p style="font-size:10px;color:var(--gray);text-align:center;letter-spacing:0.06em;">
+    <!-- TALLY FORM EMBED -->
+    <div class="tally-wrapper" id="contactForm">
+      <iframe
+        data-tally-src="https://tally.so/embed/ODAQRR?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1&customFontColor=%23f5f0e8&customInputBackground=%231a1a1a&customInputBorderColor=%23d4af3755&customButtonBackground=%23d4af37&customButtonFontColor=%23020202&customLinkColor=%23d4af37"
+        loading="lazy"
+        width="100%"
+        height="600"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+        title="Contáctanos TALUX"
+        id="tallyFrame"
+        style="background:transparent;"
+      ></iframe>
+      <p style="font-size:10px;color:var(--gray);text-align:center;letter-spacing:0.06em;margin-top:16px;">
         Tus datos están protegidos · Sin spam · Sin compromisos
       </p>
     </div>
@@ -896,7 +879,7 @@
   <div style="font-size:10px;color:var(--gray);letter-spacing:0.1em;">TODOS LOS DERECHOS RESERVADOS</div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── CURSOR ── */
 const cur = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
@@ -959,61 +942,32 @@ function scrollTo(sel){
   document.querySelector(sel).scrollIntoView({behavior:'smooth'});
 }
 
-/* ── ANALYTICS EVENTS ── */
+/* ── TALLY EMBED SCRIPT ── */
+(function(d,w){var s=d.createElement('script');s.async=1;s.src='https://tally.so/widgets/embed.js';d.head.appendChild(s);})(document,window);
+
+/* Listen for Tally form submission → fire GA4 event */
+window.addEventListener('message', function(e){
+  if(e.data && e.data.event === 'Tally.FormSubmitted'){
+    gtag('event','generate_lead',{
+      event_category:'conversion',
+      event_label:'Tally Form - Contáctanos'
+    });
+    showToast('✓ Formulario enviado','Un asesor te contactará en breve');
+  }
+});
+
+
 function trackCotizar(){
   gtag('event','click_cotizar',{event_category:'engagement',event_label:'Botón Cotizar'});
   showToast('✓ Evento GA4','click_cotizar registrado');
   document.querySelector('#contacto').scrollIntoView({behavior:'smooth'});
 }
 
-function submitLead(){
-  const nombre  = document.getElementById('f-nombre').value.trim();
-  const email   = document.getElementById('f-email').value.trim();
-  if(!nombre || !email){
-    showToast('⚠ Campos requeridos','Por favor ingresa nombre y correo');
-    return;
-  }
-  const payload = {
-    nombre,
-    empresa:  document.getElementById('f-empresa').value,
-    email,
-    telefono: document.getElementById('f-tel').value,
-    unidades: document.getElementById('f-unidades').value,
-    mensaje:  document.getElementById('f-mensaje').value,
-    utm_source:   document.getElementById('f-utm-source').value,
-    utm_medium:   document.getElementById('f-utm-medium').value,
-    utm_campaign: document.getElementById('f-utm-campaign').value,
-    utm_term:     document.getElementById('f-utm-term').value,
-    vehiculo_valor: document.getElementById('vehicleSlider').value,
-    timestamp: new Date().toISOString()
-  };
 
-  gtag('event','generate_lead',{
-    event_category:'conversion',
-    event_label:'Formulario Contacto',
-    value: +payload.vehiculo_valor
-  });
-
-  /* ── ZAPIER WEBHOOK ── */
-  /* Reemplaza esta URL con tu webhook de Zapier */
-  const ZAPIER_WEBHOOK = 'https://hooks.zapier.com/hooks/catch/TU_ID_AQUI/';
-  fetch(ZAPIER_WEBHOOK, {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify(payload),
-    mode:'no-cors'
-  }).catch(()=>{});
-
-  showToast('✓ Solicitud enviada','Un asesor te contactará en breve');
-  document.getElementById('contactForm').innerHTML = `
-    <div style="text-align:center;padding:60px 20px;">
-      <div style="font-size:48px;margin-bottom:20px;">✓</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);margin-bottom:12px;">¡Solicitud recibida!</div>
-      <div style="font-size:13px;color:var(--gray-light);line-height:1.8;">
-        Gracias, <strong style="color:var(--white)">${nombre}</strong>.<br>
-        Un asesor TALUX se pondrá en contacto contigo<br>a la brevedad posible.
-      </div>
-    </div>`;
+function trackCotizar(){
+  gtag('event','click_cotizar',{event_category:'engagement',event_label:'Botón Cotizar'});
+  showToast('✓ Evento GA4','click_cotizar registrado');
+  document.querySelector('#contacto').scrollIntoView({behavior:'smooth'});
 }
 </script>
 </body>
